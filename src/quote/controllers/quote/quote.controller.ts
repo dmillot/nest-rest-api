@@ -1,7 +1,7 @@
-import {QuoteDto} from "../../dto/quote.dto";
-import {QuoteService} from "../../services/quote/quote.service";
-import {EditQuoteDto} from "../../dto/edit-quote.dto";
-import {AddQuoteDto} from "../../dto/add-quote.dto";
+import { QuoteDto } from "../../dto/quote.dto";
+import { QuoteService } from "../../services/quote/quote.service";
+import { EditQuoteDto } from "../../dto/edit-quote.dto";
+import { AddQuoteDto } from "../../dto/add-quote.dto";
 import {
     Controller,
     Get,
