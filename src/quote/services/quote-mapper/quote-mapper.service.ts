@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { Quote } from '../../entities';
-import { QuoteDto } from '../../dto';
+import { QuoteDto } from 'src/quote/dto/quote.dto';
+import { Quote } from 'src/quote/entities/quote';
 
 @Injectable()
 export class QuoteMapperService {
