@@ -1,11 +1,12 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { Repository } from 'typeorm';
-import { InjectRepository } from '@nestjs/typeorm';
-import { QuoteMapperService } from '../quote-mapper/quote-mapper.service';
-import { Quote } from 'src/quote/entities/quote';
-import { QuoteDto } from 'src/quote/dto/quote.dto';
-import { AddQuoteDto } from 'src/quote/dto/add-quote.dto';
-import { EditQuoteDto } from 'src/quote/dto/edit-quote.dto';
+import { Quote } from "../../entities/quote";
+import { QuoteDto } from "../../dto/quote.dto";
+import { Injectable, NotFoundException } from "@nestjs/common";
+import { EditQuoteDto } from "../../dto/edit-quote.dto";
+import { Repository } from "typeorm";
+import { AddQuoteDto } from "../../dto/add-quote.dto";
+import { InjectRepository } from "@nestjs/typeorm";
+import { QuoteMapperService } from "../quote-mapper/quote-mapper.service";
+
 
 @Injectable()
 export class QuoteService {
