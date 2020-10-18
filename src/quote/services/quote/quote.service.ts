@@ -1,0 +1,59 @@
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
+import { QuoteMapperService } from '../quote-mapper/quote-mapper.service';
+import { Quote } from 'src/quote/entities/quote';
+import { QuoteDto } from 'src/quote/dto/quote.dto';
+import { AddQuoteDto } from 'src/quote/dto/add-quote.dto';
+import { EditQuoteDto } from 'src/quote/dto/edit-quote.dto';
+
+@Injectable()
+export class QuoteService {
+
+  public constructor(
+      @InjectRepository(Quote) private readonly quoteRepository: Repository<Quote>,
+      private readonly quoteMapper: QuoteMapperService
+    ) {}
+
+  public async findAll(): Promise<QuoteDto[]> {
+    const quotes = await this.quoteRepository.find();
+    return quotes.map(this.quoteMapper.modelToDto);
+  }
+
+  public async findOne(id: number): Promise<QuoteDto> {
+    const quote = await this.quoteRepository.findOne(id);
+    if (quote === null || quote === undefined) throw new NotFoundException();
+    return this.quoteMapper.modelToDto(quote);
+  }
+
+  public async add({ author, philosophy, quote }: AddQuoteDto): Promise<QuoteDto> {
+    let quoteToAdd = new Quote(author, philosophy, quote);
+    quoteToAdd = await this.quoteRepository.save(quoteToAdd);
+    return this.quoteMapper.modelToDto(quoteToAdd);
+  }
+
+  public async edit(id: number, { author, philosophy, quote }: EditQuoteDto): Promise<QuoteDto> {
+    let quoteToEdit = await this.quoteRepository.findOne(id);
+
+    if (quoteToEdit === null || quoteToEdit === undefined) throw new NotFoundException();
+
+    quoteToEdit.author = author;
+    quoteToEdit.philosophy = philosophy;
+    quoteToEdit.quote = quote;
+
+    quoteToEdit = await this.quoteRepository.save(quoteToEdit);
+
+    return this.quoteMapper.modelToDto(quoteToEdit);
+  }
+
+  public async remove(id: number): Promise<Quote> {
+    let quote = await this.quoteRepository.findOne(id);
+
+    if (quote === null || quote === undefined) throw new NotFoundException();
+
+    quote = await this.quoteRepository.remove(quote);
+
+    return quote;
+  }
+
+}
